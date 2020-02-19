@@ -64,7 +64,7 @@ public class LogOnFrm extends JFrame {
 
 		JLabel lblNewLabel = new JLabel("Quiz Management System");
 		lblNewLabel.setFont(new Font("Lucida Grande", Font.BOLD, 19));
-		lblNewLabel.setIcon(new ImageIcon(LogOnFrm.class.getResource("/images/management_69.888px_1215614_easyicon.net.png")));
+		lblNewLabel.setIcon(new ImageIcon(LogOnFrm.class.getResource("/com/topQuiz/images/management_69.888px_1215614_easyicon.net.png")));
 
 		JLabel lblNewLabel_1 = new JLabel("Username:");
 
