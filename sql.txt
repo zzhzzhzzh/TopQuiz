@@ -1,0 +1,39 @@
+
+create database QUESTION;
+
+// set up table for admin user and fill data
+create table t_user(id int not null auto_increment, username varchar(20) not null, password varchar(20) not null, primary key(id));
+insert into t_user (username, password) values ("admin","123456");
+
+// set up table for quiz type and fill data
+create table t_quiztype(id int not null auto_increment, quizTypeName varchar(30) not null, quizTypeDesc varchar(1000), primary key(id));
+insert into t_quiztype (quizTypeName) values ("text-based");
+insert into t_quiztype (quizTypeName) values ("mouse-based");
+insert into t_quiztype (quizTypeName) values ("interactive");
+insert into t_quiztype (quizTypeName) values ("test");
+
+// set up table for quiz and fill data
+create table t_quiz(id int not null auto_increment, ques varchar(500) not null, ans varchar(200) not null, quizTypeId int, quizDesc varchar (500), primary key(id));
+ALTER TABLE t_quiz ADD CONSTRAINT fk_quizTypeId FOREIGN KEY(quizTypeId) REFERENCES t_quizType(id);
+
+insert into t_quiz (ques,ans,quizTypeId) values ("Is a pencil a good or a service?","good",1);
+insert into t_quiz (ques,ans,quizTypeId) values ("What season comes right after winter?","Spring",1);
+insert into t_quiz (ques,ans,quizTypeId) values ("Who is the first president of the United States?","George Washington",1);
+insert into t_quiz (ques, ans, quizTypeId) values("What is 80 minus 50?","30",1);
+insert into t_quiz (ques,ans,quizTypeId) values("What is the smallest prime number?","2",1);
+insert into t_quiz(ques, ans, quizTypeId) values ("What is the closest planet to Earth?","moon",1);
+insert into t_quiz(ques, ans, quizTypeId) values ("How do you write the number sixty-one using digits?","61",1);
+insert into t_quiz(ques,ans,quizTypeId) values("The superhero rescued 54 boys and 1 girl. How many people did he rescue in total?","55",1);
+insert into t_quiz(ques, ans, quizTypeId) values("What is the biggest value of all coins?","1 dollar",1);
+insert into t_quiz (ques,ans,quizTypeId) values ("What is the median of 2,3,7?","3",1);
+insert into t_quiz (ques, ans, quizTypeId) values ("What is the mode of 2,2,2,4,6?","2",1);
+insert into t_quiz(ques, ans, quizTypeId) values("What is the range of 1,2,4,8?","7",1);
+insert into t_quiz(ques,ans, quizTypeId) values("What is the average number of 3,7?","5",1);
+insert into t_quiz(ques,ans, quizTypeId) values("Tomorrow is Tuesday. What day is today?","Monday",1);
+insert into t_quiz(ques,ans,quizTypeId) values ("How many days does July have?","31",1);
+insert into t_quiz(ques,ans,quizTypeId) values ("How many minutes are in an hour?","60",1);
+insert into t_quiz(ques, ans, quizTypeId) values ("What month is just after April?","May",1);
+insert into t_quiz(ques, ans, quizTypeId) values ("Christmas is a holiday in which religion?","Christianity",1);
+insert into t_quiz(ques, ans, quizTypeId) values ("What Dr. Martin Luther King, Jr. want to be when he was in college?","minister",1);
+insert into t_quiz(ques, ans, quizTypeId) values ("What is the capital of Texas?","Austin",1);
+insert into t_quiz(ques, ans, quizTypeId) values ("What is the closest star to Earth?","sun",1);
