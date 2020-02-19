@@ -9,7 +9,7 @@ import com.topQuiz.model.QuizType;
 import com.topQuiz.util.StringUtil;
 
 /**
- * quiz dao
+ * quiz com.topQuiz.dao
  * @author jady
  *
  */

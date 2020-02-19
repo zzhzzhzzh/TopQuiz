@@ -139,7 +139,7 @@ public class LogOnFrm extends JFrame {
 
 	/**
 	 * login event
-	 * @param e
+	 * @param evt
 	 */
 	// change from protected to private
 	private void loginActionPerformed(ActionEvent evt) {

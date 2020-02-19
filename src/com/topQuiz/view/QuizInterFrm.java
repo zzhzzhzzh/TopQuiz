@@ -37,7 +37,7 @@ public class QuizInterFrm extends JInternalFrame {
 		setBounds(100, 100, 450, 300);
 
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(QuizInterFrm.class.getResource("/images/game.png")));
+		lblNewLabel.setIcon(new ImageIcon(QuizInterFrm.class.getResource("/com/topQuiz/images/game.png")));
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
