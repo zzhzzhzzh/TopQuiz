@@ -61,7 +61,7 @@ public class ChooseQuesType extends JFrame {
 
     public static void createAndShowGUI(){
         ChooseQuesType app = new ChooseQuesType();
-        app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE );
+        app.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE );
     }
 
     public static void main(String[] args) {

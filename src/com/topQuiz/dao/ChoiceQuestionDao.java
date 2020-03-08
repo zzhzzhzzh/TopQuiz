@@ -32,6 +32,12 @@ public class ChoiceQuestionDao {
 	    return pstmt.executeUpdate(); // return affected rows
 	}
 
+	public ResultSet search(Connection con) throws Exception {
+		String sql = "select * from t_ChoiceQuestion order by rand() limit 2";
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		return pstmt.executeQuery();
+	}
+
 	
 }
 

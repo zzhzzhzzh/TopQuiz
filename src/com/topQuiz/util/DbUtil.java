@@ -9,9 +9,10 @@ import java.sql.DriverManager;
  *
  */
 public class DbUtil {
+	//You may need to changes those fields to adapt to your db
 	private String dbUrl = "jdbc:mysql://localhost:3306/QUESTION";
 	private String dbUserName = "root";
-	private String dbPassword = "1111111";
+	private String dbPassword = "barcelona";
 	private String jdbcName = "com.mysql.jdbc.Driver";
 	
 	/**

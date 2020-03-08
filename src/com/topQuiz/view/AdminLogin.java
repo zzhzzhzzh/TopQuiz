@@ -1,5 +1,7 @@
 package com.topQuiz.view;
 
+import com.sun.org.apache.bcel.internal.generic.NEW;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -62,31 +64,44 @@ public class AdminLogin extends JFrame{
     class ButtonEventHandler implements ActionListener {
         public void actionPerformed( ActionEvent event ){
 
-            if ( (unametTf.getText().equals("")) || (pswTf.getText().equals(""))){
-                  JOptionPane.showMessageDialog(null, "Please enter full info!");
+//            if ( (unametTf.getText().equals("")) || (pswTf.getText().equals(""))){
+//                  JOptionPane.showMessageDialog(null, "Please enter full info!");
+//            }
+//
+//            else {
+//                if (event.getActionCommand().equals("submit")){
+//                    if ( (unametTf.getText().equals("admin")) && (pswTf.getText().equals("123456"))){
+//                        dispose();
+//        				new ChooseQuesType().setVisible(true);
+//                    }
+//                    else {
+//                        JOptionPane.showMessageDialog(null, "Wrong user info!");
+//                        unametTf.setText("");
+//                        pswTf.setText("");
+//                    }
+//                }
+//
+//
+//            }
+
+            if ( (unametTf.getText().equals("admin")) && (pswTf.getText().equals("123456"))){
+                dispose();
+                new ChooseQuesType().setVisible(true);
+                //new ChooseQuesType().setVisible(true);
+            } else if ((unametTf.getText().equals("")) || (pswTf.getText().equals(""))) {
+                JOptionPane.showMessageDialog(null, "Please enter full info!");
             }
-
             else {
-                if (event.getActionCommand().equals("submit")){
-                    if ( (unametTf.getText().equals("admin")) && (pswTf.getText().equals("123456"))){
-                        dispose();
-        				new ChooseQuesType().setVisible(true);
-                    }
-                    else {
-                        JOptionPane.showMessageDialog(null, "Wrong user info!");
-                        unametTf.setText("");
-                        pswTf.setText("");
-                    }
-                }
-     
-
+                JOptionPane.showMessageDialog(null, "Wrong user info!");
+                unametTf.setText("");
+                pswTf.setText("");
             }
         }
 
     }
     public static void createAndShowGUI(){
         AdminLogin app = new AdminLogin();
-        app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE );
+        app.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
     public static void main(String[] args) {
         //Schedule a job for the event dispatch thread:
