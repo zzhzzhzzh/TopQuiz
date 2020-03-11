@@ -18,15 +18,16 @@ import java.util.List;
 public class FillBlankPanel extends JPanel implements ActionListener {
 
     User user;
-    private JPanel questionPanel, answerPanel, controlPanel;
-    private JButton submitBtn, nextBtn, prevBtn;
-    private JLabel quesLbl, quesContentLbl, ansLbl;
+    private JPanel questionPanel, answerPanel, controlPanel, scorePanel;
+    private JButton submitBtn, nextBtn, prevBtn, mainBtn;
+    private JLabel quesLbl, quesContentLbl, ansLbl, score, username;
     private JTextArea ansTa;
     private List<BlankQuestion> questionList;
     private Iterator<BlankQuestion> blankQuestionIterator;
     private BlankQuestion blankQuestion;
 
-    public FillBlankPanel() throws Exception {
+    public FillBlankPanel(User user) throws Exception {
+        this.user = user;
         questionList = getQuestionList();
         blankQuestionIterator = questionList.iterator();
         if (blankQuestionIterator.hasNext()) {
@@ -65,9 +66,22 @@ public class FillBlankPanel extends JPanel implements ActionListener {
         nextBtn = new JButton("next");
         nextBtn.setActionCommand("next question");
         nextBtn.addActionListener(this);
+        mainBtn = new JButton("Home");
+        mainBtn.setActionCommand("Home");
+        nextBtn.addActionListener(this);
 
         controlPanel.add(nextBtn);
 
+        scorePanel = new JPanel();
+        scorePanel.setLayout(new FlowLayout());
+        username = new JLabel(user.getUsername());
+        username.setFont(new Font("Arial", Font.PLAIN, 19));
+        username.setForeground(Color.BLUE);
+        score = new JLabel(String.valueOf(user.getCurScore()));
+        scorePanel.add(username);
+        scorePanel.add(score);
+
+        add(scorePanel);
         add(questionPanel);
         add(answerPanel);
         add(controlPanel);
@@ -83,6 +97,8 @@ public class FillBlankPanel extends JPanel implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Your answer is incorrect");
             } else { //correct answer
                 if (blankQuestionIterator.hasNext()) { // there still have some questions in this question list
+                    user.setCurScore(user.getCurScore() + 1);
+
                     blankQuestion = blankQuestionIterator.next();
                     quesContentLbl.setText(blankQuestion.getQuestion());
                 } else { // switch to choice questions
@@ -99,6 +115,9 @@ public class FillBlankPanel extends JPanel implements ActionListener {
                 }
             }
             ansTa.setText("");
+        } else if (event.getActionCommand().equals("Home")) {
+            removeAll();
+            repaint();
         }
     }
     private List<BlankQuestion> getQuestionList() throws Exception {
@@ -124,10 +143,10 @@ public class FillBlankPanel extends JPanel implements ActionListener {
     }
 
     public static void main(String[] args) throws Exception {
-        JFrame f = new JFrame();
-        FillBlankPanel app = new FillBlankPanel();
-        f.setVisible(true);
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.getContentPane().add(app);
-    }
+//        JFrame f = new JFrame();
+//        FillBlankPanel app = new FillBlankPanel();
+//        f.setVisible(true);
+//        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        f.getContentPane().add(app);
+     }
 }

@@ -4,11 +4,15 @@ public class User {
     private int id;
     private String username;
     private int maxSocre;
+    private int curScore;
+
+
 
     public User(int id, String username, int maxSocre) {
         this.id = id;
         this.username = username;
         this.maxSocre = maxSocre;
+        this.curScore = 0;
     }
 
     public int getId() {
@@ -33,6 +37,14 @@ public class User {
 
     public void setMaxSocre(int maxSocre) {
         this.maxSocre = maxSocre;
+    }
+
+    public int getCurScore() {
+        return curScore;
+    }
+
+    public void setCurScore(int curScore) {
+        this.curScore = curScore;
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.topQuiz.dao.ChoiceQuestionDao;
 import com.topQuiz.model.ChoiceQuestion;
 import com.topQuiz.model.User;
 import com.topQuiz.util.DbUtil;
+import jdk.nashorn.internal.scripts.JO;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +14,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -29,6 +31,7 @@ public class ChoicePanel extends JPanel implements ActionListener {
     private String[] answers;
 
     public ChoicePanel() throws Exception {
+        setLayout(new BorderLayout());
         questionList = getQuestionList();
         choiceQuestionIterator = questionList.iterator();
         if (choiceQuestionIterator.hasNext()) {
@@ -55,6 +58,7 @@ public class ChoicePanel extends JPanel implements ActionListener {
 
         selectionPanel = new JPanel(new GridLayout(0,1));
         checkBoxList = new JCheckBox[4];
+        System.out.println("answer:" + Arrays.toString(answers));
         for (int i = 0; i < 4; i++) {
             checkBoxList[i] = new JCheckBox(answers[i]);
             selectionPanel.add(checkBoxList[i]);
@@ -69,9 +73,9 @@ public class ChoicePanel extends JPanel implements ActionListener {
 
         controlPanel.add(nextBtn);
 
-        add(questionPanel);
-        add(selectionPanel);
-        add(controlPanel);
+        add(questionPanel, BorderLayout.PAGE_START);
+        add(selectionPanel, BorderLayout.CENTER);
+        add(controlPanel, BorderLayout.PAGE_END);
 
         setVisible(true);
 
@@ -79,13 +83,34 @@ public class ChoicePanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent event) {
-        if (event.getActionCommand().equals("next question") && choiceQuestionIterator.hasNext()) {
+        String ans = null;
+        boolean rightanswer = true;
+        for (int i =0; i < checkBoxList.length; i++) {
+            if (checkBoxList[i].isSelected()) {
+                if (ans != null) {
+                    JOptionPane.showMessageDialog(null, "Only select one choice");
+                    rightanswer = false;
+                }
+                ans = checkBoxList[i].getText();
+                if (ans != quesContentLbl.getText()) {
+                    JOptionPane.showMessageDialog(null, "your answer is incorrect");
+                    rightanswer = false;
+                }
+            }
+        }
+
+
+        if (rightanswer &&rightanswer && event.getActionCommand().equals("next question") && choiceQuestionIterator.hasNext()) {
             choiceQuestion = choiceQuestionIterator.next();
             quesContentLbl.setText(choiceQuestion.getQuestion());
             checkBoxList[0].setText(choiceQuestion.getChoice1());
             checkBoxList[1].setText(choiceQuestion.getChoice2());
             checkBoxList[2].setText(choiceQuestion.getChoice3());
             checkBoxList[3].setText(choiceQuestion.getChoice4());
+        } else {
+            for (JCheckBox jCheckBox: checkBoxList) {
+                jCheckBox.setSelected(false);
+            }
         }
     }
 
@@ -116,7 +141,7 @@ public class ChoicePanel extends JPanel implements ActionListener {
 
     public static void main(String[] args) throws Exception {
         JFrame f = new JFrame();
-        f.setSize(600, 600);
+        //f.setSize(600, 600);
         f.setResizable(false);
         ChoicePanel app = new ChoicePanel();
         f.getContentPane().add(app);

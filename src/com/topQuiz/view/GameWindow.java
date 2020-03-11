@@ -16,45 +16,47 @@ public class GameWindow extends JFrame implements ActionListener {
 
     public GameWindow(User user) {
         super("Welcome to TopQuiz");
-
+        setSize(800, 600);
         this.user = user;
         Container container = getContentPane();
-        container.setLayout(new FlowLayout());
+        container.setLayout(new BorderLayout());
         scorePanel = new JPanel();
         scorePanel.setLayout(new FlowLayout());
 
         game1 = new JButton("game1");
-        game1.setPreferredSize(new Dimension(300, 300));
+        game1.setPreferredSize(new Dimension(100, 100));
         game1.setActionCommand("click game1");
         game1.addActionListener(this);
-        container.add(game1);
+        container.add(game1, BorderLayout.WEST);
 
         game2 = new JButton("game2");
-        game2.setPreferredSize(new Dimension(300, 300));
+        game2.setPreferredSize(new Dimension(100, 100));
         game2.setActionCommand("click game2");
         game2.addActionListener(this);
-        container.add(game2);
+        container.add(game2, BorderLayout.CENTER);
 
         game3 = new JButton("game3");
-        game3.setPreferredSize(new Dimension(300, 300));
+        game3.setPreferredSize(new Dimension(100, 100));
         game3.setActionCommand("click game3");
         game3.addActionListener(this);
-        container.add(game3);
+        container.add(game3, BorderLayout.EAST);
 
         username = new JLabel(user.getUsername());
         username.setFont(new Font("ARIAL", Font.PLAIN, 19));
         username.setForeground(Color.BLUE);
 
-        score = new JLabel(String.valueOf(user.getMaxSocre()));
+        score = new JLabel(String.valueOf(user.getCurScore()));
         scorePanel.add(username);
         scorePanel.add(score);
-        container.add(scorePanel);
+        container.add(scorePanel, BorderLayout.PAGE_START);
 
         mainBtn = new JButton("main");
         mainBtn.setPreferredSize(new Dimension(100, 100));
         mainBtn.setActionCommand("click main");
         mainBtn.addActionListener(this);
-        container.add(mainBtn);
+        container.add(mainBtn, BorderLayout.PAGE_END);
+
+
 
         pack();
         setVisible(true);
@@ -69,7 +71,7 @@ public class GameWindow extends JFrame implements ActionListener {
             getContentPane().removeAll();
             repaint();
             try {
-                getContentPane().add(new FillBlankPanel());
+                getContentPane().add(new FillBlankPanel(user), BorderLayout.CENTER);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -77,8 +79,14 @@ public class GameWindow extends JFrame implements ActionListener {
 //            dispose();
 //            new FillBlankQues().setVisible(true);
         } else if (event.getActionCommand().equals("click game2")) {
-            dispose();
-            new GameWindow(user).setVisible(true);
+            getContentPane().removeAll();
+            repaint();
+            try {
+                getContentPane().add(new Type2Question(), BorderLayout.CENTER);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            validate();
         } else if (event.getActionCommand().equals("click game3")){
             getContentPane().removeAll();
             repaint();
