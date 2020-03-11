@@ -1,7 +1,5 @@
 package com.topQuiz.view;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
