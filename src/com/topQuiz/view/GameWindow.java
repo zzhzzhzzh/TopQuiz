@@ -9,91 +9,58 @@ import java.awt.event.ActionListener;
 
 public class GameWindow extends JFrame implements ActionListener {
 
-    private JButton game1, game2, game3, mainBtn;
-    private JPanel scorePanel;
+    private JButton game1, game2, game3, homeBtn;
+    private JPanel gameChoicePanel;
+    private  NavigationPanel navigationPanel;
     private JLabel username, score;
     private User user;
 
     public GameWindow(User user) {
         super("Welcome to TopQuiz");
-        setSize(800, 600);
+        setSize(600, 400);
         this.user = user;
         Container container = getContentPane();
         container.setLayout(new BorderLayout());
-        scorePanel = new JPanel();
-        scorePanel.setLayout(new FlowLayout());
+        navigationPanel = new NavigationPanel(user, this);
+        gameChoicePanel = new GameChoicePanel(this);
 
-        game1 = new JButton("game1");
-        game1.setPreferredSize(new Dimension(100, 100));
-        game1.setActionCommand("click game1");
-        game1.addActionListener(this);
-        container.add(game1, BorderLayout.WEST);
+        container.add(navigationPanel, BorderLayout.PAGE_START);
+        container.add(gameChoicePanel, BorderLayout.CENTER);
 
-        game2 = new JButton("game2");
-        game2.setPreferredSize(new Dimension(100, 100));
-        game2.setActionCommand("click game2");
-        game2.addActionListener(this);
-        container.add(game2, BorderLayout.CENTER);
-
-        game3 = new JButton("game3");
-        game3.setPreferredSize(new Dimension(100, 100));
-        game3.setActionCommand("click game3");
-        game3.addActionListener(this);
-        container.add(game3, BorderLayout.EAST);
-
-        username = new JLabel(user.getUsername());
-        username.setFont(new Font("ARIAL", Font.PLAIN, 19));
-        username.setForeground(Color.BLUE);
-
-        score = new JLabel(String.valueOf(user.getCurScore()));
-        scorePanel.add(username);
-        scorePanel.add(score);
-        container.add(scorePanel, BorderLayout.PAGE_START);
-
-        mainBtn = new JButton("main");
-        mainBtn.setPreferredSize(new Dimension(100, 100));
-        mainBtn.setActionCommand("click main");
-        mainBtn.addActionListener(this);
-        container.add(mainBtn, BorderLayout.PAGE_END);
-
-
-
-        pack();
+        //pack();
         setVisible(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent event) {
-        if (event.getActionCommand().equals("click main")) {
-            getContentPane().setVisible(false);
-        }
         if (event.getActionCommand().equals("click game1")) {
-            getContentPane().removeAll();
+            getContentPane().remove(gameChoicePanel);
             repaint();
             try {
-                getContentPane().add(new FillBlankPanel(user), BorderLayout.CENTER);
+                getContentPane().add(new FillBlankPanel(user, navigationPanel), BorderLayout.CENTER);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             validate();
-//            dispose();
-//            new FillBlankQues().setVisible(true);
         } else if (event.getActionCommand().equals("click game2")) {
-            getContentPane().removeAll();
+            getContentPane().remove(gameChoicePanel);
             repaint();
             try {
-                getContentPane().add(new Type2Question(), BorderLayout.CENTER);
+                getContentPane().add(new Type2Question(user, navigationPanel), BorderLayout.CENTER);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             validate();
         } else if (event.getActionCommand().equals("click game3")){
-            getContentPane().removeAll();
+//            getContentPane().removeAll();
+//            repaint();
+//            getContentPane().add(new MyPanel());
+//            validate();
+        }else if (event.getActionCommand().equals("click Home")){
+            BorderLayout layout = (BorderLayout) getContentPane().getLayout();
+            getContentPane().remove(layout.getLayoutComponent(BorderLayout.CENTER));
             repaint();
-            getContentPane().add(new MyPanel());
-            validate();
-        }else {
-
+            getContentPane().add(gameChoicePanel, BorderLayout.CENTER);
         }
     }
 

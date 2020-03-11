@@ -22,6 +22,7 @@ public class ChoicePanel extends JPanel implements ActionListener {
 
     User user;
     private JPanel questionPanel, selectionPanel, controlPanel;
+    private NavigationPanel navigationPanel;
     private JButton submitBtn, nextBtn, prevBtn;
     private JLabel quesLbl, quesContentLbl;
     private List<ChoiceQuestion> questionList;
@@ -30,7 +31,9 @@ public class ChoicePanel extends JPanel implements ActionListener {
     private JCheckBox[] checkBoxList;
     private String[] answers;
 
-    public ChoicePanel() throws Exception {
+    public ChoicePanel(User user, NavigationPanel navigationPanel) throws Exception {
+        this.user = user;
+        this.navigationPanel = navigationPanel;
         setLayout(new BorderLayout());
         questionList = getQuestionList();
         choiceQuestionIterator = questionList.iterator();
@@ -92,25 +95,30 @@ public class ChoicePanel extends JPanel implements ActionListener {
                     rightanswer = false;
                 }
                 ans = checkBoxList[i].getText();
-                if (ans != quesContentLbl.getText()) {
+                if (!ans.equals(choiceQuestion.getAnswer())) {
                     JOptionPane.showMessageDialog(null, "your answer is incorrect");
                     rightanswer = false;
                 }
             }
         }
 
+        for (JCheckBox jCheckBox: checkBoxList) {
+            jCheckBox.setSelected(false);
+        }
 
         if (rightanswer &&rightanswer && event.getActionCommand().equals("next question") && choiceQuestionIterator.hasNext()) {
+            user.setCurScore(user.getCurScore() + 1);
+            navigationPanel.updateScore(user.getCurScore());
             choiceQuestion = choiceQuestionIterator.next();
             quesContentLbl.setText(choiceQuestion.getQuestion());
             checkBoxList[0].setText(choiceQuestion.getChoice1());
             checkBoxList[1].setText(choiceQuestion.getChoice2());
             checkBoxList[2].setText(choiceQuestion.getChoice3());
             checkBoxList[3].setText(choiceQuestion.getChoice4());
-        } else {
-            for (JCheckBox jCheckBox: checkBoxList) {
-                jCheckBox.setSelected(false);
-            }
+        } else if (!choiceQuestionIterator.hasNext()) {
+            navigationPanel.updateScore(user.getCurScore());
+            choiceQuestion = choiceQuestionIterator.next();
+            JOptionPane.showMessageDialog(null, "You have answered all questions, please go back to home page");
         }
     }
 
@@ -140,14 +148,14 @@ public class ChoicePanel extends JPanel implements ActionListener {
     }
 
     public static void main(String[] args) throws Exception {
-        JFrame f = new JFrame();
-        //f.setSize(600, 600);
-        f.setResizable(false);
-        ChoicePanel app = new ChoicePanel();
-        f.getContentPane().add(app);
-        //f.pack();
-        f.setVisible(true);
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        JFrame f = new JFrame();
+//        //f.setSize(600, 600);
+//        f.setResizable(false);
+//        ChoicePanel app = new ChoicePanel();
+//        f.getContentPane().add(app);
+//        //f.pack();
+//        f.setVisible(true);
+//        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
 }

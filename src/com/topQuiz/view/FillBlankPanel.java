@@ -18,7 +18,8 @@ import java.util.List;
 public class FillBlankPanel extends JPanel implements ActionListener {
 
     User user;
-    private JPanel questionPanel, answerPanel, controlPanel, scorePanel;
+    private JPanel questionPanel, answerPanel, controlPanel;
+    private NavigationPanel navigationPanel;
     private JButton submitBtn, nextBtn, prevBtn, mainBtn;
     private JLabel quesLbl, quesContentLbl, ansLbl, score, username;
     private JTextArea ansTa;
@@ -26,8 +27,9 @@ public class FillBlankPanel extends JPanel implements ActionListener {
     private Iterator<BlankQuestion> blankQuestionIterator;
     private BlankQuestion blankQuestion;
 
-    public FillBlankPanel(User user) throws Exception {
+    public FillBlankPanel(User user, NavigationPanel navigationPanel) throws Exception {
         this.user = user;
+        this.navigationPanel = navigationPanel;
         questionList = getQuestionList();
         blankQuestionIterator = questionList.iterator();
         if (blankQuestionIterator.hasNext()) {
@@ -54,7 +56,7 @@ public class FillBlankPanel extends JPanel implements ActionListener {
         ansLbl.setForeground(Color.BLUE);
         ansLbl.setIcon(new ImageIcon(FillBlankQues.class.getResource("/images/answer.png")));
 
-        ansTa = new JTextArea(2, 50);
+        ansTa = new JTextArea(1, 15);
 
 
         answerPanel.add(ansLbl);
@@ -66,22 +68,9 @@ public class FillBlankPanel extends JPanel implements ActionListener {
         nextBtn = new JButton("next");
         nextBtn.setActionCommand("next question");
         nextBtn.addActionListener(this);
-        mainBtn = new JButton("Home");
-        mainBtn.setActionCommand("Home");
-        nextBtn.addActionListener(this);
 
         controlPanel.add(nextBtn);
 
-        scorePanel = new JPanel();
-        scorePanel.setLayout(new FlowLayout());
-        username = new JLabel(user.getUsername());
-        username.setFont(new Font("Arial", Font.PLAIN, 19));
-        username.setForeground(Color.BLUE);
-        score = new JLabel(String.valueOf(user.getCurScore()));
-        scorePanel.add(username);
-        scorePanel.add(score);
-
-        add(scorePanel);
         add(questionPanel);
         add(answerPanel);
         add(controlPanel);
@@ -96,16 +85,16 @@ public class FillBlankPanel extends JPanel implements ActionListener {
             if (!answer.equals(blankQuestion.getAnswer())) { // wrong answer
                 JOptionPane.showMessageDialog(null, "Your answer is incorrect");
             } else { //correct answer
+                user.setCurScore(user.getCurScore() + 1);
+                navigationPanel.updateScore(user.getCurScore());
                 if (blankQuestionIterator.hasNext()) { // there still have some questions in this question list
-                    user.setCurScore(user.getCurScore() + 1);
-
                     blankQuestion = blankQuestionIterator.next();
                     quesContentLbl.setText(blankQuestion.getQuestion());
                 } else { // switch to choice questions
                     removeAll();
                     repaint();
                     try {
-                        add(new ChoicePanel());
+                        add(new ChoicePanel(user, navigationPanel));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -115,9 +104,6 @@ public class FillBlankPanel extends JPanel implements ActionListener {
                 }
             }
             ansTa.setText("");
-        } else if (event.getActionCommand().equals("Home")) {
-            removeAll();
-            repaint();
         }
     }
     private List<BlankQuestion> getQuestionList() throws Exception {

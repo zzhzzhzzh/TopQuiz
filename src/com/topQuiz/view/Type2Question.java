@@ -16,13 +16,16 @@ import java.io.IOException;
 public class Type2Question extends JPanel implements ActionListener, MouseListener {
 
     User user;
-    private JPanel questionPanel, picPanel, controlPanel;
+    private NavigationPanel navigationPanel;
+    private JPanel questionPanel, picPanel;
     private JButton submitBtn, nextBtn, prevBtn;
     private JLabel quesLbl, quesContentLbl, cApicLabel, GpicLabel, LpicLabel, TpicLabel, wApicLebel;
 
 
-    public Type2Question() {
+    public Type2Question(User user, NavigationPanel navigationPanel) {
 
+        this.user = user;
+        this.navigationPanel = navigationPanel;
         questionPanel = new JPanel(new FlowLayout(FlowLayout.CENTER,20,20));
 
         quesLbl = new JLabel("Question");
@@ -80,23 +83,27 @@ public class Type2Question extends JPanel implements ActionListener, MouseListen
     }
 
     public static void main(String[] args) {
-        JFrame f = new JFrame();
-        //f.setSize(800,800);
-        Type2Question app = new Type2Question();
-        f.setVisible(true);
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.add(app);
+//        JFrame f = new JFrame();
+//        //f.setSize(800,800);
+//        Type2Question app = new Type2Question();
+//        f.setVisible(true);
+//        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        f.add(app);
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         if (quesContentLbl.getText() == "California" && e.getSource() == cApicLabel) {
-            JOptionPane.showMessageDialog(null, "click CA");
+            user.setCurScore(user.getCurScore() + 1);
+            navigationPanel.updateScore(user.getCurScore());
             quesContentLbl.setText("Washington");
         } else if (quesContentLbl.getText() == "Washington" && e.getSource() == wApicLebel) {
-            JOptionPane.showMessageDialog(null, "click WA");
+            user.setCurScore(user.getCurScore() + 1);
+            navigationPanel.updateScore(user.getCurScore());
+            JOptionPane.showMessageDialog(null, "You have answered all question, please go back to home page");
+
         } else {
-            JOptionPane.showMessageDialog(null, "false");
+            JOptionPane.showMessageDialog(null, "incorrect anwer");
         }
     }
 
